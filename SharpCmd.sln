@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2026
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpCmd", "SharpCmd\SharpCmd.csproj", "{5F49C464-4641-4919-A4E1-B7559C756913}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5F49C464-4641-4919-A4E1-B7559C756913}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F49C464-4641-4919-A4E1-B7559C756913}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F49C464-4641-4919-A4E1-B7559C756913}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F49C464-4641-4919-A4E1-B7559C756913}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {71BB529C-C8CF-4D83-93E1-F6B9D0661CAD}
+	EndGlobalSection
+EndGlobal
