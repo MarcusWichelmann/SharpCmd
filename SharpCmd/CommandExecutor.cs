@@ -36,10 +36,17 @@ namespace SharpCmd
 
             var currentController = (CommandController<TContext>)Activator.CreateInstance(typeof(TMainController), _context, iterator);
 
-            while (iterator.HasNext)
+            while (true)
             {
-                string methodName = iterator.GetNext();
-                ICommandResult result = await ExecuteControllerMethod(currentController, methodName, iterator).ConfigureAwait(false);
+                ICommandResult result;
+                if (iterator.HasNext)
+                {
+                    result = await ExecuteControllerMethod(currentController, iterator, iterator.GetNext()).ConfigureAwait(false);
+                }
+                else
+                {
+                    result = await ExecuteControllerMethod(currentController, iterator).ConfigureAwait(false);
+                }
 
                 if (result is ForwardResult forwardResult)
                 {
@@ -59,11 +66,21 @@ namespace SharpCmd
             throw new IncompleteCommandException("Command iterator reached end but execution chain goes on.");
         }
 
-        private Task<ICommandResult> ExecuteControllerMethod(CommandController<TContext> controller, string methodName, CommandIterator commandIterator)
+        private Task<ICommandResult> ExecuteControllerMethod(CommandController<TContext> controller, CommandIterator commandIterator, string methodName = default)
         {
-            MethodInfo method = controller.GetType().GetMethods().FirstOrDefault(m => m.GetCustomAttribute<CommandAttribute>(true)?.Command == methodName);
-            if (method == null)
-                throw new InvalidCommandException($"Controller {controller} has no handler for the {methodName} command.");
+            MethodInfo method;
+            if (methodName == default)
+            {
+                method = controller.GetType().GetMethods().FirstOrDefault(m => m.GetCustomAttribute<DefaultCommandAttribute>(true) != null);
+                if (method == null)
+                    throw new InvalidCommandException($"Controller {controller} has no default command handler.");
+            }
+            else
+            {
+                method = controller.GetType().GetMethods().FirstOrDefault(m => m.GetCustomAttribute<CommandAttribute>(true)?.Command == methodName);
+                if (method == null)
+                    throw new InvalidCommandException($"Controller {controller} has no handler for the {methodName} command.");
+            }
 
             var args = new List<object>();
             foreach (ParameterInfo parameter in method.GetParameters())
